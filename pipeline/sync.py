@@ -15,6 +15,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 
@@ -23,6 +24,8 @@ ROOT = os.path.dirname(HERE)
 RUN = os.path.join(HERE, "_run")
 PUBLISHED = os.path.join(ROOT, "prompts.json")
 ARCHIVE_URL = "https://sparktech.pro/ai_prompts/"
+PHASE_ATTEMPTS = 2  # a network phase that fails (after per-request retries) is re-run once
+PHASE_RETRY_WAIT = 300  # seconds; outlasts short network outages
 MAX_DROP = 0.10  # fail if the prompt count falls by more than this share in one run
 
 sys.path.insert(0, HERE)
@@ -54,12 +57,19 @@ def fail(title, details):
 
 def fetch():
     for script in ("inventory.py", "fetch_pages.py", "run_extract.py"):
-        p = subprocess.run([sys.executable, os.path.join(HERE, script)], cwd=RUN, capture_output=True, text=True)
-        with open(os.path.join(RUN, "fetch.log"), "a", encoding="utf-8") as log:
-            log.write(f"$ {script}\n{p.stdout}{p.stderr}\n")
+        attempts = PHASE_ATTEMPTS if script != "run_extract.py" else 1  # only network phases are retried
+        for attempt in range(1, attempts + 1):
+            p = subprocess.run([sys.executable, os.path.join(HERE, script)], cwd=RUN, capture_output=True, text=True)
+            with open(os.path.join(RUN, "fetch.log"), "a", encoding="utf-8") as log:
+                log.write(f"$ {script} (attempt {attempt})\n{p.stdout}{p.stderr}\n")
+            if p.returncode == 0:
+                break
+            if attempt < attempts:
+                print(f"{script} failed (attempt {attempt}); retrying in {PHASE_RETRY_WAIT} s")
+                time.sleep(PHASE_RETRY_WAIT)
         if p.returncode != 0:
             tail = "\n".join((p.stdout + p.stderr).strip().splitlines()[-15:])
-            fail(f"{script} exited with {p.returncode}", f"```\n{tail}\n```")
+            fail(f"{script} exited with {p.returncode} after {attempts} attempt(s)", f"```\n{tail}\n```")
 
 
 def check_gate(gate):
