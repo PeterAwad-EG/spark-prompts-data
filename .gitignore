@@ -1,0 +1,4 @@
+pipeline/_run/
+__pycache__/
+.DS_Store
+*.log

@@ -1,0 +1,81 @@
+{
+ "allowlist": [
+  "chatgpt.com",
+  "chat.openai.com",
+  "gemini.google.com",
+  "claude.ai",
+  "www.perplexity.ai",
+  "gamma.app",
+  "app.heygen.com",
+  "notebook.google.com",
+  "notebooklm.google.com"
+ ],
+ "targets": {
+  "chat": {
+   "primary": "insert",
+   "primary_label": "إدراج في المحادثة",
+   "hint": "",
+   "links": [
+    {"site": "chatgpt", "label": "ChatGPT", "url": "https://chatgpt.com/"},
+    {"site": "gemini", "label": "Gemini", "url": "https://gemini.google.com/app"},
+    {"site": "claude", "label": "Claude", "url": "https://claude.ai/new"}
+   ]
+  },
+  "image": {
+   "primary": "insert",
+   "primary_label": "إدراج في المحادثة",
+   "hint": "يعمل في Gemini أو ChatGPT لتوليد الصور",
+   "links": [
+    {"site": "gemini", "label": "Gemini", "url": "https://gemini.google.com/app"},
+    {"site": "chatgpt", "label": "ChatGPT", "url": "https://chatgpt.com/"}
+   ]
+  },
+  "slides": {
+   "primary": "copy",
+   "primary_label": "نسخ",
+   "hint": "الصقه في Gamma",
+   "links": [{"site": "gamma", "label": "Gamma", "url": "https://gamma.app/"}]
+  },
+  "video": {
+   "primary": "copy",
+   "primary_label": "نسخ",
+   "hint": "الصقه في HeyGen Video Agent",
+   "links": [{"site": "heygen", "label": "HeyGen", "url": "https://app.heygen.com/video-agent"}]
+  },
+  "notebooklm": {
+   "primary": "copy",
+   "primary_label": "نسخ",
+   "hint": "الصقه في Gemini Notebook",
+   "links": [{"site": "notebooklm", "label": "Gemini Notebook", "url": "https://notebook.google.com/", "fallback_url": "https://notebooklm.google.com/"}]
+  },
+  "ai-settings": {
+   "primary": "copy",
+   "primary_label": "نسخ",
+   "hint": "الصقه في إعدادات التخصيص في أداتك",
+   "links": [
+    {"site": "chatgpt", "label": "ChatGPT", "url": "https://chatgpt.com/settings/personalization?instructions=chatgpt"},
+    {"site": "gemini", "label": "Gemini", "url": "https://gemini.google.com/saved-info"},
+    {"site": "claude", "label": "Claude", "url": "https://claude.ai/settings"}
+   ]
+  },
+  "other": {
+   "primary": "copy",
+   "primary_label": "نسخ",
+   "hint": "",
+   "links": []
+  }
+ },
+ "platforms": {
+  "chatgpt": {"target": "chat", "site": "chatgpt", "action": "insert", "url": "https://chatgpt.com/"},
+  "claude": {"target": "chat", "site": "claude", "action": "insert", "url": "https://claude.ai/new"},
+  "gemini": {"target": "chat", "site": "gemini", "action": "insert", "url": "https://gemini.google.com/app"},
+  "perplexity": {"target": "chat", "site": "perplexity", "action": "copy-open", "extra_link": true,
+                 "label": "Perplexity", "url": "https://www.perplexity.ai/",
+                 "hint": "تم نسخ البرومبت — الصقه في Perplexity (Ctrl+V أو ⌘V)"},
+  "notebooklm": {"target": "notebooklm", "site": "notebooklm", "action": "copy-open", "url": "https://notebook.google.com/"},
+  "gamma": {"target": "slides", "site": "gamma", "action": "copy-open", "url": "https://gamma.app/"},
+  "heygen": {"target": "video", "site": "heygen", "action": "copy-open", "url": "https://app.heygen.com/video-agent"},
+  "gemini_instructions": {"target": "ai-settings", "site": "gemini", "action": "copy-open", "url": "https://gemini.google.com/saved-info"},
+  "chatgpt_personal": {"target": "ai-settings", "site": "chatgpt", "action": "copy-open", "url": "https://chatgpt.com/settings/personalization?instructions=chatgpt"}
+ }
+}

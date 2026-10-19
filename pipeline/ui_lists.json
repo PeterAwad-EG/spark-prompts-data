@@ -1,0 +1,248 @@
+{
+ "_doc": "Peter's three global UI lists (values English, labels Arabic). Copied from the extension's tools/ui_meta.json.",
+ "lists": {
+  "outputLanguages": [
+   [
+    "Modern Standard Arabic",
+    "العربية الفصحى المعاصرة"
+   ],
+   [
+    "Simplified Modern Standard Arabic (short sentences, everyday vocabulary)",
+    "العربية الفصحى المبسطة"
+   ],
+   [
+    "Egyptian Arabic",
+    "العامية المصرية"
+   ],
+   [
+    "Levantine Arabic",
+    "العامية الشامية"
+   ],
+   [
+    "Gulf Arabic",
+    "اللهجة الخليجية"
+   ],
+   [
+    "Saudi Arabic",
+    "اللهجة السعودية"
+   ],
+   [
+    "Iraqi Arabic",
+    "اللهجة العراقية"
+   ],
+   [
+    "Sudanese Arabic",
+    "اللهجة السودانية"
+   ],
+   [
+    "Maghrebi Arabic",
+    "الدارجة المغاربية"
+   ],
+   [
+    "Moroccan Arabic (Darija)",
+    "الدارجة المغربية"
+   ],
+   [
+    "English",
+    "الإنجليزية"
+   ],
+   [
+    "French",
+    "الفرنسية"
+   ],
+   [
+    "Turkish",
+    "التركية"
+   ],
+   [
+    "Persian (Farsi)",
+    "الفارسية"
+   ],
+   [
+    "Hebrew",
+    "العبرية"
+   ],
+   [
+    "Kurdish",
+    "الكردية"
+   ],
+   [
+    "Urdu",
+    "الأردية"
+   ]
+  ],
+  "voiceTones": [
+   [
+    "Professional",
+    "احترافية"
+   ],
+   [
+    "Friendly",
+    "ودودة"
+   ],
+   [
+    "Conversational",
+    "حوارية طبيعية"
+   ],
+   [
+    "Warm",
+    "دافئة"
+   ],
+   [
+    "Empathetic",
+    "متعاطفة"
+   ],
+   [
+    "Authoritative",
+    "واثقة وخبيرة"
+   ],
+   [
+    "Educational",
+    "تعليمية"
+   ],
+   [
+    "Inspirational",
+    "ملهمة"
+   ],
+   [
+    "Persuasive",
+    "إقناعية"
+   ],
+   [
+    "Enthusiastic",
+    "حماسية"
+   ],
+   [
+    "Energetic",
+    "حيوية ونشيطة"
+   ],
+   [
+    "Playful",
+    "مرحة"
+   ],
+   [
+    "Humorous",
+    "فكاهية"
+   ],
+   [
+    "Storytelling",
+    "سردية قصصية"
+   ],
+   [
+    "Dramatic",
+    "درامية"
+   ],
+   [
+    "Calm",
+    "هادئة"
+   ],
+   [
+    "Reassuring",
+    "مطمئنة"
+   ],
+   [
+    "Serious",
+    "جادة"
+   ],
+   [
+    "Direct",
+    "مباشرة وحاسمة"
+   ],
+   [
+    "Curious",
+    "فضولية واستكشافية"
+   ]
+  ],
+  "writingStyles": [
+   [
+    "Professional",
+    "احترافي"
+   ],
+   [
+    "Formal",
+    "رسمي"
+   ],
+   [
+    "Conversational",
+    "حواري طبيعي"
+   ],
+   [
+    "Friendly",
+    "ودود"
+   ],
+   [
+    "Informative",
+    "معلوماتي"
+   ],
+   [
+    "Educational",
+    "تعليمي"
+   ],
+   [
+    "Analytical",
+    "تحليلي"
+   ],
+   [
+    "Persuasive",
+    "إقناعي"
+   ],
+   [
+    "Narrative",
+    "سردي قصصي"
+   ],
+   [
+    "Storytelling",
+    "قصصي مشوّق"
+   ],
+   [
+    "Practical",
+    "عملي وتطبيقي"
+   ],
+   [
+    "Instructional (step by step)",
+    "إرشادي خطوة بخطوة"
+   ],
+   [
+    "Concise",
+    "مختصر ومكثّف"
+   ],
+   [
+    "Engaging",
+    "جذّاب وتفاعلي"
+   ],
+   [
+    "Inspirational",
+    "ملهم"
+   ],
+   [
+    "Reflective",
+    "تأملي"
+   ],
+   [
+    "Devotional",
+    "تعبّدي وروحي"
+   ],
+   [
+    "Biblical Expository",
+    "تفسيري كتابي"
+   ],
+   [
+    "Pastoral",
+    "رعوي مشجّع"
+   ],
+   [
+    "Social Media",
+    "مناسب للتواصل الاجتماعي"
+   ],
+   [
+    "Copywriting",
+    "تسويقي وإعلاني"
+   ]
+  ],
+  "faithStyles": [
+   "Devotional",
+   "Biblical Expository",
+   "Pastoral"
+  ]
+ }
+}
