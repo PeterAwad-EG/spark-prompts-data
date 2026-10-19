@@ -2,7 +2,8 @@ name: Daily prompts sync
 
 on:
   schedule:
-    - cron: "17 3 * * *"   # 03:17 UTC daily
+    # GitHub cron is always UTC. 00:15 UTC = 03:15 Cairo in summer (UTC+3), 02:15 in winter (UTC+2).
+    - cron: "15 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,17 +24,25 @@ jobs:
       - name: Fetch, validate, normalize
         run: python3 pipeline/sync.py
 
-      - name: Commit prompts.json if content changed
+      - name: Commit on content change, or heartbeat after 30 quiet days
         run: |
-          if [ "$(python3 -c 'import json; print(json.load(open("pipeline/_run/status.json"))["changed"])')" != "True" ]; then
-            echo "No content change; nothing to commit."
-            exit 0
-          fi
-          cp pipeline/_run/prompts.json prompts.json
+          changed=$(python3 -c 'import json; print(json.load(open("pipeline/_run/status.json"))["changed"])')
+          age_days=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add prompts.json
-          git commit -F pipeline/_run/commit_message.txt
+          cp pipeline/_run/status_public.json status.json
+          if [ "$changed" = "True" ]; then
+            cp pipeline/_run/prompts.json prompts.json
+            git add prompts.json status.json
+            git commit -F pipeline/_run/commit_message.txt
+          elif [ "$age_days" -ge 30 ]; then
+            echo "No content change, but last commit is $age_days days old: committing heartbeat."
+            git add status.json
+            git commit -F pipeline/_run/heartbeat_message.txt
+          else
+            echo "No content change; last commit $age_days days old; nothing to commit."
+            exit 0
+          fi
           git push
 
       - name: Run summary

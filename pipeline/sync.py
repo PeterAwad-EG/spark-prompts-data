@@ -4,7 +4,8 @@ usage: python3 pipeline/sync.py [--offline DIR]
 
   --offline DIR  skip the network; reuse inventory.json / extracted.json / gate_a.json from DIR
 
-Writes to pipeline/_run/: prompts.json, report.json, summary.md, commit_message.txt, status.json.
+Writes to pipeline/_run/: prompts.json, report.json, summary.md, commit_message.txt, status.json,
+status_public.json (the repo-root heartbeat file) and heartbeat_message.txt.
 Exit 0: valid build (status.json "changed" says whether prompts.json differs from the repo copy).
 Exit 1: a request or a validation failed; summary.md explains, and the repo copy must stay as is.
 """
@@ -163,6 +164,14 @@ def main():
     write(os.path.join(RUN, "summary.md"), f"## Sync OK ({'content changed' if changed else 'no content change'})\n\n" +
           "\n".join(f"- {x}" for x in lines) + "\n")
     dump({"ok": True, "changed": changed}, os.path.join(RUN, "status.json"))
+    # Public heartbeat (repo-root status.json): committed with every content change, and on its own when
+    # main has had no commit for 30 days, so GitHub never disables the schedule for inactivity.
+    run_url = os.environ.get("GITHUB_RUN_ID") and \
+        f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+    dump({"last_successful_run": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "prompts": s["prompts"],
+          "prompts_json_changed": changed, "summary": lines, "run": run_url},
+         os.path.join(RUN, "status_public.json"))
+    write(os.path.join(RUN, "heartbeat_message.txt"), f"heartbeat {day}: no content change\n\n{body}\n")
     print(head + "\n" + body + f"\nchanged={changed}")
 
 

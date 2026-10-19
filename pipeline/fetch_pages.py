@@ -1,6 +1,7 @@
 import json, os, sys
 from http_client import get
 inv = json.load(open("inventory.json"))
+os.makedirs("pages", exist_ok=True)
 bad = []
 for p in inv["prompts"]:
     path = f"pages/{p['id']}.html"

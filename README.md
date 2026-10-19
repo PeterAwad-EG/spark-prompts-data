@@ -16,6 +16,11 @@ Prompt text is copied from the site exactly as published and is never edited her
 3. Normalizes the prompts using `pipeline/targets.json` (targets, links, platform keys, URL allowlist), `pipeline/overrides.json` and `pipeline/ui_lists.json`.
 4. Validates the result. If any request fails or any check fails, nothing is committed: the last good `prompts.json` stays, and the run opens (or comments on) a **"Daily sync failed"** issue.
 5. Commits `prompts.json` only when its content changed. The commit message lists the changed, added and removed IDs, stale overrides, unknown platform keys and warnings.
+6. **Heartbeat:** `status.json` (time of the last successful run, prompt count, run summary) is committed along with every content change. If `main` has had no commit for 30 days, a successful run commits `status.json` on its own. GitHub disables scheduled workflows in public repos after 60 days without activity, so this keeps the schedule alive.
+
+### Schedule
+
+The cron is `15 0 * * *`. GitHub always reads cron times in **UTC**, so this is 00:15 UTC: **03:15 Cairo time in summer** (Egypt on UTC+3) and **02:15 in winter** (UTC+2). The one-hour seasonal drift is expected. GitHub may also start scheduled runs a few minutes late.
 
 ### Overrides
 
