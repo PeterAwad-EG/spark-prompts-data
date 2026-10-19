@@ -12,9 +12,9 @@ Prompt text is copied from the site exactly as published and is never edited her
 ## How the daily sync works
 
 1. Reads the public WordPress REST listing, the taxonomies and the sitemap, then downloads every public prompt page. It sends GET requests only, at most one per second, with a descriptive User-Agent.
+   Each request is tried up to 5 times with backoff (2, 4, 8, 16 s). If a network phase still fails, the run waits 5 minutes and retries that phase once, so a short outage doesn't fail the daily run.
 2. Extracts each prompt's text exactly and checks it against the page.
 3. Normalizes the prompts using `pipeline/targets.json` (targets, links, platform keys, URL allowlist), `pipeline/overrides.json` and `pipeline/ui_lists.json`.
-   Each request is tried up to 5 times with backoff (2, 4, 8, 16 s). If a network phase still fails, the run waits 5 minutes and retries that phase once, so a short outage doesn't fail the daily run.
 4. Validates the result. If any request fails or any check fails, nothing is committed: the last good `prompts.json` stays, and the run opens (or comments on) a **"Daily sync failed"** issue.
 5. Commits `prompts.json` only when its content changed. The commit message lists the changed, added and removed IDs, stale overrides, unknown platform keys and warnings.
 6. **Heartbeat:** `status.json` (time of the last successful run, prompt count, run summary) is committed along with every content change. If `main` has had no commit for 30 days, a successful run commits `status.json` on its own. GitHub disables scheduled workflows in public repos after 60 days without activity, so this keeps the schedule alive.
