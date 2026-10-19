@@ -1,9 +1,11 @@
 """Polite read-only HTTP client: GET only, >=1 s between requests, exponential backoff."""
 import os
+import socket
 import ssl
 import time
-import urllib.request
 import urllib.error
+import urllib.parse
+import urllib.request
 
 UA = ("SparkTechPromptsSync/1.0 (read-only daily prompt sync for the SparkTech Prompts browser extension; "
       "+https://github.com/PeterAwad-EG/spark-prompts-data; +https://sparktech.pro/contact/)")
@@ -32,6 +34,26 @@ def get(url, retries=4, timeout=30):
         except (urllib.error.URLError, TimeoutError) as e:
             err = e
         if attempt == retries:
-            raise RuntimeError(f"GET failed after {retries + 1} tries: {url}: {err}")
+            probe = "" if isinstance(err, urllib.error.HTTPError) else "\n" + probe_tcp(url)
+            raise RuntimeError(f"GET failed after {retries + 1} tries: {url}: {err}{probe}")
         time.sleep(delay)
         delay *= 2
+
+
+def probe_tcp(url, timeout=10):
+    """Diagnose a network-level failure: try a TCP connect to every address the host resolves to."""
+    u = urllib.parse.urlsplit(url)
+    port = u.port or (443 if u.scheme == "https" else 80)
+    try:
+        addrs = sorted({(ai[0], ai[4][0]) for ai in socket.getaddrinfo(u.hostname, port, type=socket.SOCK_STREAM)})
+    except OSError as e:
+        return f"TCP probe: DNS failed for {u.hostname}: {e}"
+    lines = []
+    for fam, ip in addrs:
+        try:
+            socket.create_connection((ip, port), timeout=timeout).close()
+            res = "connected"
+        except OSError as e:
+            res = f"{type(e).__name__}: {e}"
+        lines.append(f"TCP probe {'IPv6' if fam == socket.AF_INET6 else 'IPv4'} {ip}:{port} -> {res}")
+    return "\n".join(lines)
