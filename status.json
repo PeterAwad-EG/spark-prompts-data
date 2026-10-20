@@ -1,14 +1,17 @@
 {
- "last_successful_run": "2026-10-19T06:49:04Z",
- "prompts": 173,
+ "last_successful_run": "2026-10-20T04:55:12Z",
+ "prompts": 174,
  "prompts_json_changed": true,
  "summary": [
-  "Prompts: 173",
-  "Initial build: 173 prompts",
+  "Prompts: 174",
+  "Changed IDs: none",
+  "Added IDs: SP-12568",
+  "Removed IDs: none",
+  "Config changed: categories",
   "Stale overrides: none",
   "Orphan overrides: none",
   "Unknown platform keys: none",
   "Warnings: none"
  ],
- "run": "https://github.com/PeterAwad-EG/spark-prompts-data/actions/runs/39211798809"
+ "run": "https://github.com/PeterAwad-EG/spark-prompts-data/actions/runs/39371747607"
 }
